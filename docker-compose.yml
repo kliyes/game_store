@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+
+  web:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: web
+    volumes:
+      - ./game_store:/opt/src
+    working_dir: /opt/src
+    environment:
+      FLASK_APP: run.py
+      FLASK_ENV: development
+    ports:
+      - "8000:8000"
+    command: flask run --host=0.0.0.0 --port=8000
+
+  lint:
+    build:
+      context: .
+      dockerfile: Dockerfile.lint
+    hostname: lint
+    volumes:
+      - ./game_store:/opt/src
+    working_dir: /opt/src
+    command: pylint --exit-zero --rcfile=/opt/pylint.conf /opt/src
