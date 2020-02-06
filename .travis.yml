@@ -1,0 +1,12 @@
+sudo: required
+
+services:
+  - docker
+
+script:
+  - docker-compose build
+  - docker-compose run lint
+
+notifications:
+  email:
+    - me@kliy.es
