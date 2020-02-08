@@ -7,6 +7,20 @@ script:
   - docker-compose build
   - docker-compose run lint
 
+before_install:
+  - openssl aes-256-cbc -K $encrypted_67ed219c14e0_key -iv $encrypted_67ed219c14e0_iv
+    -in id_rsa.enc -out ~\/.ssh/id_rsa -d
+
+addons:
+  ssh_known_hosts:
+    - 45.77.197.6
+
+after_success:
+  - chmod 600 ~/.ssh/id_rsa
+  - git archive -o game_store.tar.gz master
+  - scp game_store.tar.gz root@45.77.197.6:/opt/
+  - ssh root@45.77.197.6 -o StrictHostKeyChecking=no 'hostname'
+
 notifications:
   email:
     - me@kliy.es
