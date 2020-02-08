@@ -8,9 +8,8 @@ PKG=game_store.tar.gz
 DEST=/opt
 
 git archive -o $PKG $BRANCH
-scp $PKG $USER@$HOST:$DEST -o StrictHostKeyChecking=no
-ssh $USER@$HOST -o StrictHostKeyChecking=no <<EOF
-  tar xf $DEST/$PKG
-  cd $DEST/$PROJECT
-  docker-compose -f docker-compose.yml up -d --build web
-EOF
+scp -o StrictHostKeyChecking=no $PKG $USER@$HOST:$DEST
+ssh $USER@$HOST -o StrictHostKeyChecking=no '\
+  tar xf $DEST/$PKG && \
+  cd $DEST/$PROJECT && \
+  docker-compose -f docker-compose.yml up -d --build web'
