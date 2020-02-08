@@ -9,7 +9,7 @@ script:
 
 before_install:
   - openssl aes-256-cbc -K $encrypted_67ed219c14e0_key -iv $encrypted_67ed219c14e0_iv
-    -in id_rsa.enc -out ~\/.ssh/id_rsa -d
+    -in id_rsa.enc -out ~/.ssh/id_rsa -d
 
 addons:
   ssh_known_hosts:
