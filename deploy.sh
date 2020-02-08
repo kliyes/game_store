@@ -1,15 +1,12 @@
 #!/usr/bin/env sh
 
-export USER=root
-export HOST=45.77.197.6
-export BRANCH=master
-export PROJECT=game_store
-export PKG=game_store.tar.gz
-export DEST=/opt
+USER=root
+HOST=45.77.197.6
+BRANCH=master
 
-git archive -o $PKG $BRANCH
-scp -o StrictHostKeyChecking=no $PKG $USER@$HOST:$DEST
+git archive -o game_store.tar.gz $BRANCH
+scp -o StrictHostKeyChecking=no game_store.tar.gz $USER@$HOST:/opt
 ssh $USER@$HOST -o StrictHostKeyChecking=no '\
-  tar xf $DEST/$PKG -C $DEST && \
-  cd $DEST/$PROJECT && \
+  tar xf /opt/game_store.tar.gz -C /opt && \
+  cd /opt/game_store && \
   docker-compose -f docker-compose.yml up -d --build web'
