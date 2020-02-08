@@ -7,6 +7,7 @@ BRANCH=master
 git archive -o game_store.tar.gz $BRANCH
 scp -o StrictHostKeyChecking=no game_store.tar.gz $USER@$HOST:/opt
 ssh $USER@$HOST -o StrictHostKeyChecking=no '\
-  tar xf /opt/game_store.tar.gz -C /opt && \
+  mkdir -p /opt/game_store
+  tar xf /opt/game_store.tar.gz -C /opt/game_store && \
   cd /opt/game_store && \
   docker-compose -f docker-compose.yml up -d --build web'
