@@ -1,5 +1,7 @@
 FROM python:3.7-alpine
 
+RUN mkdir -p /opt/reports
+
 COPY pylint.conf /opt
 
 COPY requirements.txt /opt

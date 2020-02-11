@@ -12,11 +12,11 @@ services:
       - ./game_store:/opt/src
     working_dir: /opt/src
     environment:
-      FLASK_APP: run.py
-      FLASK_ENV: development
+      FLASK_APP: ${FLASK_APP}
+      FLASK_ENV: ${FLASK_ENV}
     ports:
-      - "8000:8000"
-    command: flask run --host=0.0.0.0 --port=8000
+      - "${HOST_PORT}:${CONTAINER_PORT}"
+    command: ${COMMAND}
 
   lint:
     build:
@@ -25,5 +25,6 @@ services:
     hostname: lint
     volumes:
       - ./game_store:/opt/src
+      - ./reports/lint:/opt/reports
     working_dir: /opt/src
-    command: pylint --exit-zero --rcfile=/opt/pylint.conf /opt/src
+    command: sh -c "pylint --exit-zero --rcfile=/opt/pylint.conf /opt/src | tee /opt/reports/results.txt"
